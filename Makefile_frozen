@@ -1,0 +1,37 @@
+# Sun 26 Jan 14:19:29 UTC 2025
+# was clang snips on Thu 23 Jan 13:51:00 UTC 2025
+
+all:	git_status
+
+pxall:	std_build
+.PHONY:	all
+
+std_build:	distclean_build
+
+distclean:
+	@ .  ./.profile__platformio--modded- ; cd 0000-CURRENT ; cd `/bin/pwd` ; pwd | cut -b 53- ; make distclean
+
+# find all tabs and remove them in the status, to help form .gitignore entries
+git_status:
+	@git status | cat | tr -d '\t'
+
+pwd:
+	@echo -n '  ..'
+	@pwd | cut -b 27-
+
+ECHO_BIN=/usr/bin/echo # external echo supports \e escape
+
+# different echo not ours maybe
+_hint_build_key:
+	@${ECHO_BIN} -en "\e[0;1;33;40m" # yellow
+	@${ECHO_BIN} -en "["
+	@${ECHO_BIN} -en "\e[0;1;32;40m" # green
+	@${ECHO_BIN} -en "ctrl+k b"
+	@${ECHO_BIN} -en "\e[0;1;33;40m" # yellow
+	@${ECHO_BIN} -en "]"
+	@${ECHO_BIN} -en "\e[0m"
+	@${ECHO_BIN} -e  " builds."
+	@echo # internal echo to Make or such - maybe /bin/sh stuff idk
+	@sleep 1.2 # gestural; training only
+
+# end.
